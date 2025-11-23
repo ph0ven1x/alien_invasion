@@ -19,6 +19,7 @@ class AlienInvasion:
         """开始游戏主循环"""
         while True:
             self.__check_event()
+            self.ship.update()
             self.__update_screen()
             # 限制帧率为60，tick()返回delta_time，单位毫秒
             self.clock.tick(60)
@@ -28,6 +29,17 @@ class AlienInvasion:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 sys.exit()
+            elif event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_RIGHT:
+                    self.ship.moving_right = True
+                elif event.key == pygame.K_LEFT:
+                    self.ship.moving_left = True
+            elif event.type == pygame.KEYUP:
+                if event.key == pygame.K_RIGHT:
+                    self.ship.moving_right = False
+                elif event.key == pygame.K_LEFT:
+                    self.ship.moving_left = False
+            
 
     def __update_screen(self):
         """更新屏幕上的图像，并切换到新屏幕"""
