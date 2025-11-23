@@ -1,13 +1,18 @@
 import sys
 import pygame
+from settings import Settings
 
 class AlienInvasion:
     """管理游戏资源和行为的类"""
     def __init__(self):
         """初始化游戏并创建游戏资源"""
         pygame.init()
-        self.screen = pygame.display.set_mode((1920, 1080))
+        self.clock = pygame.time.Clock()
+        self.settings = Settings()
+        self.screen = pygame.display.set_mode(
+            (self.settings.screen_width, self.settings.screen_height))
         pygame.display.set_caption("AlienInvasion")
+        
 
     def run_game(self):
         """开始游戏主循环"""
@@ -15,9 +20,13 @@ class AlienInvasion:
             # 监听键盘和鼠标事件
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
-                    sys.exit()       
+                    sys.exit()
+            # 每次循环重绘屏幕
+            self.screen.fill(self.settings.bg_color)       
             # 让最近绘制的屏幕可见
             pygame.display.flip()
+            # 限制帧率为60，tick()返回delta_time，单位毫秒
+            self.clock.tick(60)
 
 if __name__  == '__main__':
     #创建游戏实例并运行游戏
