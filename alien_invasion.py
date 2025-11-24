@@ -28,6 +28,10 @@ class AlienInvasion:
             self.__check_events()
             self.ship.update()
             self.bullets.update()
+            # 删除消失的子弹
+            for bullet in self.bullets.copy():
+                if bullet.rect.bottom < 0:
+                    self.bullets.remove(bullet)
             self.__update_screen()
             # 限制帧率为60，tick()返回delta_time，单位毫秒
             self.clock.tick(60)
