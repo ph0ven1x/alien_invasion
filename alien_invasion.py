@@ -49,6 +49,8 @@ class AlienInvasion:
             self.ship.moving_left = True
         elif event.key == pygame.K_q:
             sys.exit()
+        elif event.key == pygame.K_SPACE:
+            self.__fire_bullet()
 
     def __check_keyup_events(self, event):
         if event.key == pygame.K_RIGHT:
@@ -56,10 +58,19 @@ class AlienInvasion:
         elif event.key == pygame.K_LEFT:
             self.ship.moving_left = False        
 
+    def __fire_bullet(self):
+        """创建一颗子弹，并将他加入编组bullets"""
+        new_bullet = Bullet(self)
+        self.bullets.add(new_bullet)
+
+
     def __update_screen(self):
         """更新屏幕上的图像，并切换到新屏幕"""
         # 每次循环重绘屏幕
-        self.screen.fill(self.settings.bg_color) 
+        self.screen.fill(self.settings.bg_color)
+        for bullet in self.bullets.sprites():
+            bullet.draw_bullet()
+
         # 绘制飞船 
         self.ship.blitme()      
         # 让最近绘制的屏幕可见
