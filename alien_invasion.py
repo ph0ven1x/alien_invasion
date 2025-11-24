@@ -2,6 +2,7 @@ import sys
 import pygame
 from settings import Settings
 from ship import Ship
+from bullet import Bullet
 
 class AlienInvasion:
     """管理游戏资源和行为的类"""
@@ -12,14 +13,21 @@ class AlienInvasion:
         self.settings = Settings()
         self.screen = pygame.display.set_mode(
             (self.settings.screen_width, self.settings.screen_height))
+        # 全屏
+        # self.screen = pygame.display.set_mode(
+        #     (0, 0), pygame.FULLSCREEN)
+        # self.settings.screen_width = self.screen.get_rect().width
+        # self.settings.screen_height = self.screen.get_rect().width
         pygame.display.set_caption("AlienInvasion")
         self.ship = Ship(self)
+        self.bullets = pygame.sprite.Group()
 
     def run_game(self):
         """开始游戏主循环"""
         while True:
             self.__check_events()
             self.ship.update()
+            self.bullets.update()
             self.__update_screen()
             # 限制帧率为60，tick()返回delta_time，单位毫秒
             self.clock.tick(60)
