@@ -64,8 +64,9 @@ class AlienInvasion:
 
     def __fire_bullet(self):
         """创建一颗子弹，并将他加入编组bullets"""
-        new_bullet = Bullet(self)
-        self.bullets.add(new_bullet)
+        if len(new_bullet) < self.settings.bullet_allowed:
+            new_bullet = Bullet(self)
+            self.bullets.add(new_bullet)
 
 
     def __update_screen(self):
