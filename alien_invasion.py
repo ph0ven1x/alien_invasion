@@ -31,6 +31,7 @@ class AlienInvasion:
             self._check_events()
             self.ship.update()
             self._update_bullets()
+            self._update_aliens()
             self._update_screen()
             # 限制帧率为60，tick()返回delta_time，单位毫秒
             self.clock.tick(60)
@@ -92,6 +93,9 @@ class AlienInvasion:
         new_alien.x = x_position
         new_alien.rect.x, new_alien.rect.y = x_position, y_position
         self.aliens.add(new_alien)
+
+    def _update_aliens(self):
+        self.aliens.update()
 
     def _update_screen(self):
         """更新屏幕上的图像，并切换到新屏幕"""
