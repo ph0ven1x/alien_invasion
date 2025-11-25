@@ -20,5 +20,12 @@ class Alien(Sprite):
         self.x = float(self.rect.x)   
 
     def update(self):
-        self.x += self.settings.alien_speed
+        """更新舰队中所有外星人的位置"""
+        self.x += self.settings.alien_speed * self.settings.fleet_direction
         self.rect.x = self.x
+
+    def check_edges(self):
+        """如果外星人位于屏幕边缘就返回True"""
+        screen_rect = self.screen.get_rect()
+        return (self.rect.right >= screen_rect.right) or (self.rect.left <= 0)
+        
