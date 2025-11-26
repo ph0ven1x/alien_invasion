@@ -36,6 +36,12 @@ class Ship:
         # 实际最后的飞船坐标还是被取整了，四舍五入
         self.rect.x = self.x
 
+    def center_ship(self):
+        """将飞船放在屏幕底部中央"""
+        self.rect.midbottom = self.screen_rect.midbottom
+        self.x = float(self.rect.x)
+
+
     def blitme(self):
         """在指定位置绘制飞船"""
         # 传入贴图，还有位置
