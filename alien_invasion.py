@@ -28,14 +28,16 @@ class AlienInvasion:
         self.bullets = pygame.sprite.Group()
         self.aliens = pygame.sprite.Group()
         self._create_fleet()
+        self.game_active = True
 
     def run_game(self):
         """开始游戏主循环"""
         while True:
             self._check_events()
-            self.ship.update()
-            self._update_bullets()
-            self._update_aliens()
+            if self.game_active:
+                self.ship.update()
+                self._update_bullets()
+                self._update_aliens()
             self._update_screen()
             # 限制帧率为60，tick()返回delta_time，单位毫秒
             self.clock.tick(60)
@@ -117,18 +119,21 @@ class AlienInvasion:
  
     def _ship_hit(self):
         """响应飞船和外星人的碰撞"""
-        # 将ship_left减1
-        self.stats.ship_left -= 1
+        if self.stats.ship_left > 0:
+            # 将ship_left减1
+            self.stats.ship_left -= 1
 
-        # 清空外星人列表和子弹列表
-        self.bullets.empty()
-        self.aliens.empty()
+            # 清空外星人列表和子弹列表
+            self.bullets.empty()
+            self.aliens.empty()
 
-        #创建一个新的外星舰队，并将飞船放在屏幕底部中央
-        self._create_fleet()
-        self.ship.center_ship()
+            #创建一个新的外星舰队，并将飞船放在屏幕底部中央
+            self._create_fleet()
+            self.ship.center_ship()
 
-        sleep(0.5)
+            sleep(0.5)
+        else:
+            self.game_active = False
 
     def _check_aliens_bottom(self):
         """检测是否有外星人到达了屏幕的下边缘"""
