@@ -70,6 +70,7 @@ class AlienInvasion:
 
     def _update_bullets(self):
         self.bullets.update()
+        collisions = pygame.sprite.groupcollide(self.bullets, self.aliens, True, True)
         # 删除消失的子弹
         for bullet in self.bullets.copy():
             if bullet.rect.bottom < 0:
