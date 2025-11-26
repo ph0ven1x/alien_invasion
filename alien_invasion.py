@@ -70,12 +70,15 @@ class AlienInvasion:
 
     def _update_bullets(self):
         self.bullets.update()
-        collisions = pygame.sprite.groupcollide(self.bullets, self.aliens, True, True)
         # 删除消失的子弹
         for bullet in self.bullets.copy():
             if bullet.rect.bottom < 0:
                 self.bullets.remove(bullet)
+        self._check_bullet_alien_collisions()
         
+    def _check_bullet_alien_collisions(self):
+        """响应子弹和外星人的碰撞"""
+        collisions = pygame.sprite.groupcollide(self.bullets, self.aliens, True, True)
         if not self.aliens:
             self.bullets.empty()
             self._create_fleet()
@@ -102,6 +105,9 @@ class AlienInvasion:
     def _update_aliens(self):
         self._check_fleet_edges()
         self.aliens.update()
+
+        if pygame.sprite.spritecollideany(self.ship, self.aliens):
+            print("Ship hit !!!")
  
     def _check_fleet_edges(self):
         for alien in self.aliens.sprites():
