@@ -6,6 +6,8 @@ from game_stats import GameStats
 from ship import Ship
 from bullet import Bullet
 from alien import Alien
+from game_stats import GameStats
+from button import Button
 
 
 class AlienInvasion:
@@ -28,7 +30,8 @@ class AlienInvasion:
         self.bullets = pygame.sprite.Group()
         self.aliens = pygame.sprite.Group()
         self._create_fleet()
-        self.game_active = True
+        self.game_active = False
+        self.paly_button = Button(self, "Play")
 
     def run_game(self):
         """开始游戏主循环"""
@@ -50,7 +53,23 @@ class AlienInvasion:
             elif event.type == pygame.KEYDOWN:
                 self._check_keydown_events(event)
             elif event.type == pygame.KEYUP:
-                self._check_keyup_events(event)            
+                self._check_keyup_events(event)
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                mouse_pos = pygame.mouse.get_pos()
+                self._check_paly_button(mouse_pos)
+    
+    def _check_paly_button(self, mouse_pos):
+        """玩家单击Play时开始新游戏"""
+        if self.paly_button.rect.collidepoint(mouse_pos):
+            # 重置游戏的统计信息
+            self.stats.reset_stats()
+            self.game_active = True
+            # 清空外星人列表和子弹列表
+            self.bullets.empty()
+            self.aliens.empty()
+            # 创建一个新的外星舰队，并将飞船放在屏幕底部中央
+            self._create_fleet()
+            self.ship.center_ship()
 
     def _check_keydown_events(self, event):
         if event.key == pygame.K_RIGHT:
@@ -165,6 +184,9 @@ class AlienInvasion:
         self.ship.blitme()
 
         self.aliens.draw(self.screen)
+
+        if not self.game_active:
+            self.paly_button.draw_button()
 
         # 让最近绘制的屏幕可见
         pygame.display.flip()        
