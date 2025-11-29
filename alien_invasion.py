@@ -62,17 +62,20 @@ class AlienInvasion:
         """玩家单击Play时开始新游戏"""
         button_clicked = self.paly_button.rect.collidepoint(mouse_pos)
         if button_clicked and not self.game_active:
-            # 重置游戏的统计信息
-            self.stats.reset_stats()
-            self.game_active = True
-            # 清空外星人列表和子弹列表
-            self.bullets.empty()
-            self.aliens.empty()
-            # 创建一个新的外星舰队，并将飞船放在屏幕底部中央
-            self._create_fleet()
-            self.ship.center_ship()
-            pygame.mouse.set_visible(False)
+            self._start_game()
 
+    def _start_game(self):
+        # 重置游戏的统计信息
+        self.stats.reset_stats()
+        self.game_active = True
+        # 清空外星人列表和子弹列表
+        self.bullets.empty()
+        self.aliens.empty()
+        # 创建一个新的外星舰队，并将飞船放在屏幕底部中央
+        self._create_fleet()
+        self.ship.center_ship()
+        pygame.mouse.set_visible(False)
+        
     def _check_keydown_events(self, event):
         if event.key == pygame.K_RIGHT:
             self.ship.moving_right = True
@@ -82,6 +85,8 @@ class AlienInvasion:
             sys.exit()
         elif event.key == pygame.K_SPACE:
             self._fire_bullet()
+        elif event.key == pygame.K_p:
+            self._start_game()
 
     def _check_keyup_events(self, event):
         if event.key == pygame.K_RIGHT:
