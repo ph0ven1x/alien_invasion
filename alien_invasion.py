@@ -60,7 +60,8 @@ class AlienInvasion:
     
     def _check_paly_button(self, mouse_pos):
         """玩家单击Play时开始新游戏"""
-        if self.paly_button.rect.collidepoint(mouse_pos):
+        button_clicked = self.paly_button.rect.collidepoint(mouse_pos)
+        if button_clicked and not self.game_active:
             # 重置游戏的统计信息
             self.stats.reset_stats()
             self.game_active = True
