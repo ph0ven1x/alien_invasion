@@ -71,6 +71,7 @@ class AlienInvasion:
             # 创建一个新的外星舰队，并将飞船放在屏幕底部中央
             self._create_fleet()
             self.ship.center_ship()
+            pygame.mouse.set_visible(False)
 
     def _check_keydown_events(self, event):
         if event.key == pygame.K_RIGHT:
